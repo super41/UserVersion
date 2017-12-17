@@ -2,10 +2,15 @@ package com.example.userversion.info;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +47,7 @@ public class PackageDetailActivity extends AppCompatActivity {
     EditText mWifiId;
     EditText mWifiPsw;
     EditText mDistance;
-    MyAutoCompleteTextView mEmail;
+    TextView mEmail;
     EditText mEmailTitle;
     EditText mEmailContent;
     Button mBtnModify;
@@ -50,6 +55,7 @@ public class PackageDetailActivity extends AppCompatActivity {
     TextView nameInfo;
     TextView nameInfo2;
     TextView nameInfo3;
+    int REQ_CODE=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +77,7 @@ public class PackageDetailActivity extends AppCompatActivity {
         mWifiId= (EditText) findViewById(R.id.et_wifi_name);
         mWifiPsw= (EditText) findViewById(R.id.et_wifi_psw);
         mDistance= (EditText) findViewById(R.id.et_wifi_distance);
-        mEmail= (MyAutoCompleteTextView) findViewById(R.id.et_email);
+        mEmail= (TextView) findViewById(R.id.et_email);
         mEmailTitle= (EditText) findViewById(R.id.et_email_title);
         mEmailContent= (EditText) findViewById(R.id.et_email_content);
         mBtnModify= (Button) findViewById(R.id.btn_modify);
@@ -80,19 +86,19 @@ public class PackageDetailActivity extends AppCompatActivity {
         mPgName.setText(pg.getName());
         mWifiId.setText(pg.getWifiId());
         mWifiPsw.setText(pg.getWifiPsw());
+        String s=pg.getEmail1()+Util.getPgEmailSize(pg)+getString(R.string.one);
+        SpannableString spannableString = new SpannableString(s);
+        //spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#FF0000")), 0,pg.getEmail1().length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.green2)), pg.getEmail1().length(),s.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new AbsoluteSizeSpan(30), pg.getEmail1().length(),s.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
         mDistance.setText(pg.getDistance());
-        mEmail.setText(pg.getEmail());
+        mEmail.setText(spannableString);
         mEmailTitle.setText(pg.getEmailTitle());
         mEmailContent.setText(pg.getEmailContent());
         mPgName.requestFocus();
 
-        List<Package> mList = DataSupport.where("email != ?", "").order("time desc").find(Package.class);
 
-        String[] array = Util.getPackages(mList, Util.EMAIL);
-        if (array != null) {
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, array);
-            mEmail.setAdapter(arrayAdapter);
-        }
 
     }
 
@@ -113,7 +119,9 @@ public class PackageDetailActivity extends AppCompatActivity {
                     mDistance.setText("");
                     break;
                 case R.id.delete_5:
-                    mEmail.setText("");
+                    Intent intent=new Intent(PackageDetailActivity.this,EmailConfigActivity.class);
+                    intent.putExtra("pg_data",pg);
+                    startActivityForResult(intent,REQ_CODE);
                     break;
                 case R.id.delete_6:
                     mEmailTitle.setText("");
@@ -151,12 +159,8 @@ public class PackageDetailActivity extends AppCompatActivity {
         String email=mEmail.getText().toString();
         String emailTitle=mEmailTitle.getText().toString();
         String emailContent=mEmailContent.getText().toString();
-        if(isEmpty(pgName,wifiId,wifiPsw,wifiDistance,email,emailTitle,emailContent)){
+        if(isEmpty(pgName,wifiId,wifiPsw,wifiDistance,emailTitle,emailContent)){
             Util.showAlpha(nameInfo);
-            return false;
-        }
-        if(!SetEmailActivity.isEmail(email)){
-            Util.showAlpha(nameInfo2);
             return false;
         }
 
@@ -164,7 +168,7 @@ public class PackageDetailActivity extends AppCompatActivity {
         pg.setWifiId(wifiId);
         pg.setDistance(wifiDistance);
         pg.setWifiPsw(wifiPsw);
-        pg.setEmail(email);
+        //pg.setEmail(email);
         pg.setEmailTitle(emailTitle);
         pg.setEmailContent(emailContent);
         pg.setToDefault("isDelivery");
@@ -209,4 +213,22 @@ public class PackageDetailActivity extends AppCompatActivity {
         Package pg= (Package) getIntent().getSerializableExtra("pg_data");
         return pg;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQ_CODE) {
+            if (resultCode == RESULT_OK) {
+                Package pgTemp= (Package) data.getSerializableExtra("data");
+                Util.pgTopg_email(pg,pgTemp);
+                String s=pg.getEmail1()+Util.getPgEmailSize(pg)+getString(R.string.one);
+                SpannableString spannableString = new SpannableString(s);
+                //spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#FF0000")), 0,pg.getEmail1().length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.green2)), pg.getEmail1().length(),s.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new AbsoluteSizeSpan(30), pg.getEmail1().length(),s.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                mEmail.setText(spannableString);
+            }
+        }
+    }
+
+
 }

@@ -239,5 +239,19 @@
     <string name="open_fast_mode">Open fast create mode</string>
     <string name="open_fast_mode_hint">When this mode is turned on, the mailbox and WIFI information will be automatically quoted for the last time you filled out the box</string>
     <string name="tips2">tips: The successful delivery of the box will change pink!</string>
+    <string name="one">emails</string>
+    <string name="mmm">Manage Receiving Mailbox</string>
+    <string name="add">Add</string>
+    <string name="save">Save</string>
+    <string name="have_add">You have added this mailbox</string>
+    <string name="most_10">You can add up to 10 mailboxes at most</string>
+    <string name="least_1">Set up at least one mailbox</string>
+    <string name="cancel">Cancel</string>
+    <string name="wifi_name_not">Fail in wifi name</string>
+    <string name="wifi_not_psw">Fail in Wifi psw</string>
+    <string name="distance_not">Fail in distance</string>
+    <string name="fail_in_email_title">Fail in email title</string>
+    <string name="fail_in_email_content">Fail in email content</string>
+    <string name="fail_in_email">Fail in email</string>
 
 </resources>

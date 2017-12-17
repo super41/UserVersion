@@ -19,6 +19,7 @@ import com.example.userversion.bean.Package;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,7 +65,16 @@ public class SetWifiActivity extends AppCompatActivity {
 
                 Package pg=new Package();
                 pg.setName(name);
-                pg.setEmail(email);
+                pg.setEmail1(email);
+                pg.setEmail2("");
+                pg.setEmail3("");
+                pg.setEmail4("");
+                pg.setEmail5("");
+                pg.setEmail6("");
+                pg.setEmail7("");
+                pg.setEmail8("");
+                pg.setEmail9("");
+                pg.setEmail10("");
                 pg.setQrCode(qrCode);
                 pg.setDistance("2");
                 pg.setWifiId(id);

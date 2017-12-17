@@ -65,6 +65,7 @@
         <activity
             android:name="com.example.userversion.info.SettingActivity"
             />
+        <activity android:name=".info.EmailConfigActivity"/>
 
         <activity
             android:launchMode="singleTop"

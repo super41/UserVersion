@@ -55,14 +55,14 @@ public class SetNameActivity extends AppCompatActivity {
                 }else{
 
                     String name=s;
-                    String email=mPg.getEmail();
+
                     String wifiId=mPg.getWifiId();
                     String wifiPsw=mPg.getWifiPsw();
                     String qrCode=SpUtil.getQRCode(SetNameActivity.this);
 
                     Package pg=new Package();
                     pg.setName(name);
-                    pg.setEmail(email);
+                    Util.pgTopg_email(pg,mPg);
                     pg.setQrCode(qrCode);
                     pg.setDistance("2");
                     pg.setWifiId(wifiId);

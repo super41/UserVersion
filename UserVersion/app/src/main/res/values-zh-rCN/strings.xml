@@ -94,6 +94,20 @@
     <string name="open_fast_mode">开启快速创建模式</string>
     <string name="open_fast_mode_hint">开启此模式后,创建包裹箱时,邮箱和WIFI信息将自动为您引用最后一次填写的信息</string>
     <string name="tips2">提示:传递成功的包裹箱会变粉色!</string>
+    <string name="one">个</string>
+    <string name="mmm">管理接收邮箱</string>
+    <string name="add">添加</string>
+    <string name="save">保存</string>
+    <string name="have_add">您已添加过此邮箱</string>
+    <string name="most_10">您最多可以添加10个邮箱</string>
+    <string name="least_1">至少设置一个邮箱</string>
+    <string name="cancel">取消</string>
+    <string name="wifi_name_not">wifi名称检测不过</string>
+    <string name="wifi_not_psw">wifi密码检测不过</string>
+    <string name="distance_not">距离检测不过</string>
+    <string name="fail_in_email_title">邮件标题检测不过</string>
+    <string name="fail_in_email_content">邮件正文不过</string>
+    <string name="fail_in_email">邮箱检测不通过</string>
 
 
 </resources>

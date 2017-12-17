@@ -31,8 +31,7 @@ public class PackageManagerActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     PackageAdapter mPackageAdapter;
     List<Package> mList;
-    TopBar topBar;
-    int mode=1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +42,7 @@ public class PackageManagerActivity extends AppCompatActivity {
     public void initView(){
 
         mList= DataSupport.order("time desc").find(Package.class);
+        Log.d(TAG, "initView: "+mList.size());
         mRecyclerView= (RecyclerView) findViewById(R.id.recyclerView);
         mPackageAdapter=new PackageAdapter(this,mList);
         TopBar topBar= (TopBar) findViewById(R.id.topBar);

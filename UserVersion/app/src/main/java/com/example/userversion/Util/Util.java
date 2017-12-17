@@ -2,6 +2,7 @@ package com.example.userversion.Util;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
@@ -58,7 +59,7 @@ public class Util {
         });
     }
 
-    public static String[] getPackages(List<Package> list,String input){
+   /* public static String[] getPackages(List<Package> list,String input){
         if(list == null || list.size()==0){
             return null;
         }
@@ -87,5 +88,68 @@ public class Util {
             array[i]=tempList.get(i);
         }
         return array;
+    }*/
+
+  public static void pgTopg_email(Package pg,Package mPg){
+      pg.setEmail1(mPg.getEmail1());
+      pg.setEmail2(mPg.getEmail2());
+      pg.setEmail3(mPg.getEmail3());
+      pg.setEmail4(mPg.getEmail4());
+      pg.setEmail5(mPg.getEmail5());
+      pg.setEmail6(mPg.getEmail6());
+      pg.setEmail7(mPg.getEmail7());
+      pg.setEmail8(mPg.getEmail8());
+      pg.setEmail9(mPg.getEmail9());
+      pg.setEmail10(mPg.getEmail10());
+  }
+
+    public static int getPgEmailSize(Package pg){
+        int size=0;
+        if(!TextUtils.isEmpty(pg.getEmail1()))
+            size+=1;
+        if(!TextUtils.isEmpty(pg.getEmail2()))
+            size+=1;
+        if(!TextUtils.isEmpty(pg.getEmail3()))
+            size+=1;
+        if(!TextUtils.isEmpty(pg.getEmail4()))
+            size+=1;
+        if(!TextUtils.isEmpty(pg.getEmail5()))
+            size+=1;
+        if(!TextUtils.isEmpty(pg.getEmail6()))
+            size+=1;
+        if(!TextUtils.isEmpty(pg.getEmail7()))
+            size+=1;
+        if(!TextUtils.isEmpty(pg.getEmail8()))
+            size+=1;
+        if(!TextUtils.isEmpty(pg.getEmail9()))
+            size+=1;
+        if(!TextUtils.isEmpty(pg.getEmail10()))
+            size+=1;
+        return size;
+    }
+
+    public static List<String> getPgEmailList(Package pg){
+        List<String> list=new ArrayList<>();
+        if(!TextUtils.isEmpty(pg.getEmail1()))
+            list.add(pg.getEmail1());
+        if(!TextUtils.isEmpty(pg.getEmail2()))
+            list.add(pg.getEmail2());
+        if(!TextUtils.isEmpty(pg.getEmail3()))
+            list.add(pg.getEmail3());
+        if(!TextUtils.isEmpty(pg.getEmail4()))
+            list.add(pg.getEmail4());
+        if(!TextUtils.isEmpty(pg.getEmail5()))
+            list.add(pg.getEmail5());
+        if(!TextUtils.isEmpty(pg.getEmail6()))
+            list.add(pg.getEmail6());
+        if(!TextUtils.isEmpty(pg.getEmail7()))
+            list.add(pg.getEmail7());
+        if(!TextUtils.isEmpty(pg.getEmail8()))
+            list.add(pg.getEmail8());
+        if(!TextUtils.isEmpty(pg.getEmail9()))
+            list.add(pg.getEmail9());
+        if(!TextUtils.isEmpty(pg.getEmail10()))
+            list.add(pg.getEmail10());
+        return list;
     }
 }

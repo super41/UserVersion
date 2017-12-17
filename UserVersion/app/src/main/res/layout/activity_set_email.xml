@@ -59,7 +59,7 @@
             android:background="@drawable/pop_bg"
             android:orientation="horizontal">
 
-            <com.example.userversion.view.MyAutoCompleteTextView
+            <EditText
                 android:id="@+id/et_name"
                 android:padding="10dp"
                 android:completionThreshold="1"

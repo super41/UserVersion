@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 
 import android.widget.Button;
 
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +40,7 @@ public class SetEmailActivity extends AppCompatActivity {
     }
 
     public void initView() {
-        final MyAutoCompleteTextView et_name = (MyAutoCompleteTextView) findViewById(R.id.et_name);
+        final EditText et_name = (EditText) findViewById(R.id.et_name);
         final TextView nameInfo = (TextView) findViewById(R.id.name_info);
         Button btn_next = (Button) findViewById(R.id.btn_next);
         btn_next.setOnClickListener(new View.OnClickListener() {
@@ -65,14 +66,18 @@ public class SetEmailActivity extends AppCompatActivity {
             }
         });
 
-        List<Package> mList = DataSupport.where("email != ?", "").order("time desc").find(Package.class);
+        List<Package> mList= DataSupport.order("time desc").find(Package.class);
+        if(mList != null && mList.size() > 0){
+            et_name.setText(mList.get(0).getEmail1());
+        }
+       // List<Package> mList = DataSupport.where("email != ?", "").order("time desc").find(Package.class);
 
-        String[] array = Util.getPackages(mList, Util.EMAIL);
+       /* String[] array = Util.getPackages(mList, Util.EMAIL);
         if (array != null) {
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, array);
             et_name.setAdapter(arrayAdapter);
             et_name.setText(array[0]);
-        }
+        }*/
 
     }
 

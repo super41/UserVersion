@@ -96,6 +96,7 @@ public class SocketUtil {
 
     private void doConnect() {
         try {
+            work=false;
             Socket s = new Socket();
             SocketAddress socketAddress = new InetSocketAddress(HOST, PORT);
             s.connect(socketAddress, TIMEOUT);
@@ -136,6 +137,10 @@ public class SocketUtil {
                 }
             }
         }
+    }
+
+    public void setDone(){
+        work=false;
     }
 
     public void send(String s,int commamd){

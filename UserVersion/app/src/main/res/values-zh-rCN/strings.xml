@@ -108,6 +108,8 @@
     <string name="fail_in_email_title">邮件标题检测不过</string>
     <string name="fail_in_email_content">邮件正文不过</string>
     <string name="fail_in_email">邮箱检测不通过</string>
+    <string name="loading">连接成功,正在传输...</string>
+    <string name="connect_package">连接包裹箱中...</string>
 
 
 </resources>

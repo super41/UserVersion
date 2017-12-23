@@ -253,5 +253,7 @@
     <string name="fail_in_email_title">Fail in email title</string>
     <string name="fail_in_email_content">Fail in email content</string>
     <string name="fail_in_email">Fail in email</string>
+    <string name="loading">Connected successfully，Transmitting ...</string>
+    <string name="connect_package">Connecting package box...</string>
 
 </resources>

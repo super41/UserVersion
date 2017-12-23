@@ -1,10 +1,12 @@
 package com.example.userversion.activity;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -82,6 +84,12 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
     int STEP = 1;
     int EmailCount = 1;
     int EmailSTEP = 1;
+    int AllCount=6;
+    ProgressDialog p ;
+    ProgressDialog p2;
+
+    ConnectivityManager connec;
+
 
     public final String TAG = this.getClass().getSimpleName();
     public final String WIFI_STATE_CHANGE_ACTION = WifiManager.WIFI_STATE_CHANGED_ACTION;
@@ -101,7 +109,18 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
 
     public void initView() {
         pg = getPackage();
+        p=new ProgressDialog(this);
+        p2=new ProgressDialog(this);
+        connec = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        p.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        p2.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        p2.setMax(100);
+        p.setCancelable(false);
+        p2.setCancelable(false);
+        p.setMessage(getString(R.string.connect_package));
+        p2.setMessage(getString(R.string.loading));
         EmailCount = Util.getPgEmailSize(pg);
+        AllCount = EmailCount + 5;
         img_wifi = (ImageView) findViewById(R.id.img_wifi);
         tv_status = (TextView) findViewById(R.id.tv_status);
         ll_socket = (LinearLayout) findViewById(R.id.ll_socket);
@@ -134,6 +153,8 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
                     case MSG_DELAYSHOW:
                         btn_retry.setAlpha(1.0f);
                         btn_retry.setEnabled(true);
+                        p.dismiss();
+                        p2.dismiss();
                         break;
                 }
             }
@@ -155,17 +176,43 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
             @Override
             public void onClick(View v) {
                 //如果没有连接上目标wifi,请尝试重连
-                if (!TextUtils.equals("\"brize_box\"", wifiUtil.getSSID())) {
+            /*    if (!TextUtils.equals("\"brize_box\"", wifiUtil.getSSID())) {
                     wifiUtil.removeNowConnectingID();
                     handler.sendMessage(handler.obtainMessage(MSG_CONNECT));
                 } else {
+                    Log.d(TAG, "onClick: "+wifiUtil.getSSID());
                     //连上了，则建立连接
                     btn_retry.setEnabled(false);
                     btn_retry.setAlpha(0.4f);
+                    p.setMessage(getString(R.string.connect_package));
+                    p.show();
                     mMainHanler.removeMessages(MSG_DELAYSHOW);
                     mMainHanler.sendMessageDelayed(handler.obtainMessage(MSG_DELAYSHOW), 5000);
                     socketUtil.connect();
+                }*/
+
+
+                if ((connec.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED)
+                        &&
+                        TextUtils.equals("\"brize_box\"", wifiUtil.getSSID())
+                      ){
+                    Log.d(TAG, "onClick: connecting pg..."+wifiUtil.getSSID());
+                    //连上了，则建立连接
+                    btn_retry.setEnabled(false);
+                    btn_retry.setAlpha(0.4f);
+                    p2.dismiss();
+                    p.show();
+                    mMainHanler.removeMessages(MSG_DELAYSHOW);
+                    mMainHanler.sendMessageDelayed(handler.obtainMessage(MSG_DELAYSHOW), 5000);
+                    socketUtil.connect();
+                }else {
+                    Log.d(TAG, "onClick: connecting wifi ...");
+                    wifiUtil.removeNowConnectingID();
+                    handler.removeMessages(MSG_CONNECT);
+                    handler.sendMessageDelayed(handler.obtainMessage(MSG_CONNECT),300);
                 }
+
+
             }
         });
 
@@ -183,6 +230,8 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
         socketUtil.send(s, 9);
         byte[] b = SocketUtil.getByte(s, 9);
         tv_send.append("邮箱2: " + byteToString(b) + "\n");
+        int progress=(100/AllCount)*2;
+        setTranProgress(progress);
     }
 
     void sendEmail3() {
@@ -190,6 +239,8 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
         socketUtil.send(s, 10);
         byte[] b = SocketUtil.getByte(s, 10);
         tv_send.append("邮箱3: " + byteToString(b) + "\n");
+        int progress=(100/AllCount)*3;
+        setTranProgress(progress);
     }
 
     void sendEmail4() {
@@ -197,6 +248,8 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
         socketUtil.send(s, 11);
         byte[] b = SocketUtil.getByte(s, 11);
         tv_send.append("邮箱4: " + byteToString(b) + "\n");
+        int progress=(100/AllCount)*4;
+        setTranProgress(progress);
     }
 
     void sendEmail5() {
@@ -204,6 +257,8 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
         socketUtil.send(s, 12);
         byte[] b = SocketUtil.getByte(s, 12);
         tv_send.append("邮箱5: " + byteToString(b) + "\n");
+        int progress=(100/AllCount)*5;
+        setTranProgress(progress);
     }
 
     void sendEmail6() {
@@ -211,6 +266,8 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
         socketUtil.send(s, 13);
         byte[] b = SocketUtil.getByte(s, 13);
         tv_send.append("邮箱6: " + byteToString(b) + "\n");
+        int progress=(100/AllCount)*6;
+        setTranProgress(progress);
     }
 
     void sendEmail7() {
@@ -218,6 +275,8 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
         socketUtil.send(s, 14);
         byte[] b = SocketUtil.getByte(s, 14);
         tv_send.append("邮箱7: " + byteToString(b) + "\n");
+        int progress=(100/AllCount)*7;
+        setTranProgress(progress);
     }
 
     void sendEmail8() {
@@ -225,6 +284,8 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
         socketUtil.send(s, 15);
         byte[] b = SocketUtil.getByte(s, 15);
         tv_send.append("邮箱8: " + byteToString(b) + "\n");
+        int progress=(100/AllCount)*8;
+        setTranProgress(progress);
     }
 
     void sendEmail9() {
@@ -232,13 +293,17 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
         socketUtil.send(s, 16);
         byte[] b = SocketUtil.getByte(s, 16);
         tv_send.append("邮箱9: " + byteToString(b) + "\n");
+        int progress=(100/AllCount)*9;
+        setTranProgress(progress);
     }
 
     void sendEmail10() {
         String s = pg.getQrCode() + pg.getEmail10();
-        socketUtil.send(s, 0x17);
-        byte[] b = SocketUtil.getByte(s, 0x17);
+        socketUtil.send(s, 17);
+        byte[] b = SocketUtil.getByte(s, 17);
         tv_send.append("邮箱10: " + byteToString(b) + "\n");
+        int progress=(100/AllCount)*10;
+        setTranProgress(progress);
     }
 
 
@@ -247,6 +312,8 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
         socketUtil.send(s, 0x02);
         byte[] b = SocketUtil.getByte(s, 0x02);
         tv_send.append("WIFI名称：" + byteToString(b) + "\n");
+        int progress=(100/AllCount)*(AllCount-4);
+        setTranProgress(progress);
     }
 
 
@@ -255,6 +322,8 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
         socketUtil.send(s, 0x03);
         byte[] b = SocketUtil.getByte(s, 0x03);
         tv_send.append("WIFI密码：" + byteToString(b) + "\n");
+        int progress=(100/AllCount)*(AllCount-3);
+        setTranProgress(progress);
     }
 
     void sendFour() {
@@ -262,6 +331,8 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
         socketUtil.send(s, 0x04);
         byte[] b = SocketUtil.getByte(s, 0x04);
         tv_send.append("距离：" + byteToString(b) + "\n");
+        int progress=(100/AllCount)*(AllCount-2);
+        setTranProgress(progress);
     }
 
     void sendFive() {
@@ -269,6 +340,8 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
         socketUtil.send(s, 0x05);
         byte[] b = SocketUtil.getByte(s, 0x05);
         tv_send.append("标题：" + byteToString(b) + "\n");
+        int progress=(100/AllCount)*(AllCount-1);
+        setTranProgress(progress);
     }
 
     void sendSix() {
@@ -276,6 +349,8 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
         socketUtil.send(s, 0x06);
         byte[] b = SocketUtil.getByte(s, 0x01);
         tv_send.append("内容：" + byteToString(b) + "\n");
+        int progress=99;
+        setTranProgress(progress);
     }
 
 
@@ -338,12 +413,11 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
     @Override
     public void onSuccess() {
         tv_socket.setText(R.string.connection_success);
-        btn_retry.setEnabled(false);
-        btn_retry.setAlpha(0.4f);
-        mMainHanler.removeMessages(MSG_DELAYSHOW);
-        mMainHanler.sendMessageDelayed(handler.obtainMessage(MSG_DELAYSHOW), 5000);
+
         STEP = 1;
         EmailSTEP=1;
+        int progress=(100/AllCount)*1;
+        setTranProgress(progress);
         tv_receive.setText("");
         tv_send.setText("");
         sendEmail1();
@@ -407,6 +481,8 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
                   //  Toast.makeText(WifiConnectActivity.this, "全部通过", Toast.LENGTH_SHORT).show();
                     pg.setDelivery(true);
                     pg.updateAll("time = ?", pg.getTime() + "");
+                    p.dismiss();
+                    p2.dismiss();
                     Intent intent = new Intent(WifiConnectActivity.this, SuccessActivity.class);
                     startActivity(intent);
                     finish();
@@ -629,7 +705,16 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
                                 tv_status.append(wifiUtil.getSSID());
                                 img_wifi.setImageLevel(2);
                                 ll_socket.setVisibility(View.VISIBLE);
+
+                                btn_retry.setEnabled(false);
+                                btn_retry.setAlpha(0.4f);
+                                p2.dismiss();
+                                p.show();
+                                mMainHanler.removeMessages(MSG_DELAYSHOW);
+                                mMainHanler.sendMessageDelayed(handler.obtainMessage(MSG_DELAYSHOW), 5000);
                                 socketUtil.connect();
+
+                                Log.d(TAG, "onReceive: connetcd:++");
                             } else {
                                 tv_status.setText(wifi_connected_wrong);
                                 tv_status.append(wifiUtil.getSSID());
@@ -659,5 +744,13 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
         Package pg = (Package) getIntent().getSerializableExtra("pg_data");
         return pg;
     }
-
+   void setTranProgress(int progress){
+       btn_retry.setEnabled(false);
+       btn_retry.setAlpha(0.4f);
+       p.dismiss();
+       p2.setProgress(progress);
+       p2.show();
+       mMainHanler.removeMessages(MSG_DELAYSHOW);
+       mMainHanler.sendMessageDelayed(handler.obtainMessage(MSG_DELAYSHOW), 5000);
+   }
 }

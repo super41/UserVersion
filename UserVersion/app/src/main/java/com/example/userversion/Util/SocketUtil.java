@@ -28,6 +28,7 @@ public class SocketUtil {
     Activity activity;
     SocketImp socketImp;
     private static final String HOST = "192.168.4.1";
+//    private static final String HOST = "192.168.4.1";
     private static final int PORT = 6341;
     private static final int TIMEOUT = 5000;
     static final String TAG="xjp";
@@ -90,7 +91,8 @@ public class SocketUtil {
 
 
     public void connect() {
-        sendMsg(MSG_CONNECT);
+        mHandler.removeMessages(MSG_CONNECT);
+        sendMsgDelay(MSG_CONNECT,300);
     }
 
 
@@ -178,6 +180,9 @@ public class SocketUtil {
 
     void sendMsg(int what){
         mHandler.sendMessage(mHandler.obtainMessage(what));
+    }
+    void sendMsgDelay(int what,long delay){
+        mHandler.sendMessageDelayed(mHandler.obtainMessage(what),delay);
     }
     void sendMsg(int what,int arg1){
         mHandler.sendMessage(mHandler.obtainMessage(what,arg1,0,null));

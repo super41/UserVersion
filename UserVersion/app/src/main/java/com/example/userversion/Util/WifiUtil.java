@@ -129,7 +129,7 @@ public class WifiUtil {
     }
 
     public String getSSID() {
-        mWifiInfo = mWifiManager.getConnectionInfo();
+         mWifiInfo = mWifiManager.getConnectionInfo();
         return  (mWifiInfo == null) ? "NULL" : mWifiInfo.getSSID().trim();
     }
 

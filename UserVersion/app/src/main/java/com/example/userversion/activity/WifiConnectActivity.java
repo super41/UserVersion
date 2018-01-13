@@ -205,9 +205,14 @@ public class WifiConnectActivity extends AppCompatActivity implements SocketUtil
                     mMainHanler.removeMessages(MSG_DELAYSHOW);
                     mMainHanler.sendMessageDelayed(handler.obtainMessage(MSG_DELAYSHOW), 5000);
                     socketUtil.connect();
-                }else {
-                    Log.d(TAG, "onClick: connecting wifi ...");
+                }else if( connec.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED ){
+                    Log.d(TAG, "onClick:  wifi reConnecting...");
                     wifiUtil.removeNowConnectingID();
+                    handler.removeMessages(MSG_CONNECT);
+                    handler.sendMessageDelayed(handler.obtainMessage(MSG_CONNECT),300);
+                }else{
+                    Log.d(TAG, "onClick:  wifi connecting...");
+//                    wifiUtil.removeNowConnectingID();
                     handler.removeMessages(MSG_CONNECT);
                     handler.sendMessageDelayed(handler.obtainMessage(MSG_CONNECT),300);
                 }
